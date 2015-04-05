@@ -24,6 +24,4 @@ export GOPATH="/mnt/jenkins/go"
     #gcloud -q components update
 #fi
 
-source /etc/profile.d/maven.sh
-
 java -jar /usr/lib/jenkins/jenkins.war -Dhudson.diyChunking=true
