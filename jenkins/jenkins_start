@@ -1,0 +1,29 @@
+#!/bin/bash
+
+grep "GOPATH" /mnt/jenkins/.bashrc || \
+    echo -e 'export PATH="${PATH}:/mnt/jenkins/go/bin"\n export GOPATH="/mnt/jenkins/go"' >> /mnt/jenkins/.bashrc
+
+export PATH="${PATH}:/mnt/jenkins/go/bin"
+export GOPATH="/mnt/jenkins/go"
+
+# Check if Google Cloud SDK is installed. Install or update.
+#if [ ! -d google-cloud-sdk ]; then
+
+    ## Not installed, download and install it
+
+#    wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz
+#    tar xf google-cloud-sdk.tar.gz && rm google-cloud-sdk.tar.gz
+#    ./google-cloud-sdk/install.sh --disable-installation-options --usage-reporting false --bash-completion true --rc-path /mnt/jenkins/.bashrc --path-update true
+#    mkdir /mnt/jenkins/.ssh/ && ssh-keygen -f /mnt/jenkins/.ssh/google_compute_engine -N ""
+#    source /mnt/jenkins/.bashrc
+
+#else
+
+    ## Installation found. Just update Google Cloud SDK
+    #source /mnt/jenkins/.bashrc
+    #gcloud -q components update
+#fi
+
+source /etc/profile.d/maven.sh
+
+java -jar /usr/lib/jenkins/jenkins.war -Dhudson.diyChunking=true
