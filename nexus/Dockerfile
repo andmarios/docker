@@ -2,7 +2,7 @@ FROM centos:latest
 MAINTAINER Marios Andreopoulos opensource@andmarios.com
 
 RUN yum install -y epel-release
-RUN yum install -y git java-1.7.0-openjdk-headless nano emacs wget net-tools tar
+RUN yum install -y git java-1.7.0-openjdk-headless nano emacs-nox wget net-tools tar
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
 
 # Configure Nexus
