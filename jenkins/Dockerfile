@@ -18,12 +18,7 @@ ENV JENKINS_HOME /mnt/jenkins
 ENV HOME /mnt/jenkins
 RUN chown -R jenkins:jenkins /mnt/jenkins
 
-ADD jenkins_start /usr/bin/
-RUN chmod +x /usr/bin/jenkins_start
-
 USER jenkins
 WORKDIR /mnt/jenkins
-
 EXPOSE 8080
-
-CMD /usr/bin/jenkins_start
+CMD ["java", "-jar", "/usr/lib/jenkins/jenkins.war", "-Dhudson.diyChunking=true"]
