@@ -17,8 +17,12 @@ VOLUME ["/mnt/jenkins"]
 ENV JENKINS_HOME /mnt/jenkins
 ENV HOME /mnt/jenkins
 RUN chown -R jenkins:jenkins /mnt/jenkins
+RUN usermod -a -G root jenkins
+# Interestingly on CentOS 7 you can't bind mount a socket inside /run, this way it will be mounted a /
+RUN ln -s /docker.sock /run/docker.sock
 
 USER jenkins
 WORKDIR /mnt/jenkins
+
 EXPOSE 8080
 CMD ["java", "-jar", "/usr/lib/jenkins/jenkins.war", "-Dhudson.diyChunking=true"]
