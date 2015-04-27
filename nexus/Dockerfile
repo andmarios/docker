@@ -11,8 +11,12 @@ RUN wget -O /tmp/nexus-bundle.tar.gz http://www.sonatype.org/downloads/nexus-lat
 RUN tar xzvf /tmp/nexus-bundle.tar.gz -C /opt/sonatype-nexus --strip-components=1 && rm /tmp/nexus-bundle.tar.gz
 
 # Add nexus user and work directory
+# Since we use shared volumes and bind mounts, we want a standardized UID/GID. We use a number above `login.defs` max
+# Nexus UID/GID: 61002
 VOLUME ["/mnt/nexus"]
-RUN useradd --user-group --system --home-dir /mnt/nexus nexus
+RUN useradd --user-group --uid 61002 --home-dir /mnt/nexus nexus && \
+    groupmod --gid 61002 nexus && \
+    usermod  --gid 61002 nexus
 RUN chown -R nexus:nexus /mnt/nexus /opt/sonatype-nexus
 
 # Set paths
