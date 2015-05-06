@@ -9,9 +9,6 @@ RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/je
     rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 RUN yum install -y jenkins
 
-RUN curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-RUN yum install -y sbt
-
 # Prepare for Jenkins
 VOLUME ["/mnt/jenkins"]
 ENV JENKINS_HOME /mnt/jenkins
