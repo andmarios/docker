@@ -9,5 +9,10 @@
 	"dns": 53
     },
     "recursors": [ "169.254.169.254", "10.240.0.1"],
+    "dns_config": {
+	"service_ttl": {
+	    "*": "5s"
+	}
+    },
     "disable_update_check": true
 }
