@@ -1,20 +1,11 @@
-### Jenkins image with some extra sauce.
+# Jenkins image with some extra sauce.
 
 You should use a custom folder for jenkins home.
 
 Usually it is enough to:
 
     $ mkdir /path/to/jenkins/home
-    $ chown -R 998:997 /path/to/jenkins/home
-
-If the numeric uid/gid seems to have change, you may find it by running (build image fist):
-
-    $ docker run --rm andmarios/jenkins grep jenkins /etc/passwd
-
-
-To build the image:
-
-    $ docker build -t andmarios/jenkins containers/jenkins
+    $ chown -R 61001:61001 /path/to/jenkins/home
 
 To run:
 
