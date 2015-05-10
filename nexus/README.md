@@ -2,11 +2,16 @@
 
 You should use a custom folder for nexus workdir.
 
-Usually it is enough to:
+Usually* it is enough to:
 
     $ mkdir /path/to/nexus/home
-    $ chown -R 61002:61002 /path/to/nexus/home
+    $ chown -R 61002:61002 /path/to/nexus-home
 
 To run:
 
-    $ docker run --name nexus -p 8081:8081 -v /path/to/nexus/home:/mnt/nexus andmarios/nexus
+    $ docker run --name nexus -p 8081:8081 -v /path/to/nexus-home:/mnt/nexus andmarios/nexus
+
+*If you are on a SELinux enabled host, you also need:
+
+    # chcon -Rt svirt_sandbox_file_t /path/to/nexus-home
+
