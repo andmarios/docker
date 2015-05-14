@@ -6,8 +6,8 @@ RUN yum install -y git java-1.7.0-openjdk-headless java-1.7.0-openjdk-devel nano
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
 
 RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/jenkins.repo && \
-    rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
-RUN yum install -y jenkins
+    rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key && \
+    yum install -y jenkins
 
 # Prepare for Jenkins
 VOLUME ["/mnt/jenkins"]
