@@ -53,10 +53,10 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 if [ -d ~/.gcecreds ]; then
     mkdir -p ~/.gcecredsreal
     sudo install -o dev -g dev -m 600 ~/.gcecreds/* ~/.gcecredsreal/
-    if gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
+    if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
         echo "Activating GCE"
-        gcloud auth activate-service-account $(cat ~/.gcecredsreal/account) --key-file ~/.gcecredsreal/key.pem
+        /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecredsreal/account) --key-file ~/.gcecredsreal/key.pem
         sleep 2
-        gcloud config set account $(cat ~/.gcecredsreal/account)
+        /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecredsreal/account)
     fi
 fi

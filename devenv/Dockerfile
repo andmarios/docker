@@ -16,6 +16,7 @@ RUN ln -s /docker.sock /run/docker.sock
 
 RUN useradd dev -u 1000 -m && \
     echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers && \
+    usermod -a -G root dev && \
     mkdir /home/dev/ansible
 
 ADD home/ /home/dev
@@ -31,7 +32,6 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
 
 USER dev
 WORKDIR /home/dev
-
 
 ENV HOME="/home/dev" GOPATH="/home/dev/go"
 RUN mkdir /home/dev/go && go get -u -v github.com/nsf/gocode
