@@ -1,5 +1,5 @@
 FROM centos:latest
-MAINTAINER Marios Andreopoulos opensource@andmarios.com
+MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release
 RUN yum install -y git java-1.7.0-openjdk-headless java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp tar
@@ -9,7 +9,7 @@ RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/je
     rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key && \
     yum install -y jenkins
 
-# Prepare for Jenkins
+# Prepare for Jenkins. Jenkins user is already set by `yum install jenkins`
 VOLUME ["/mnt/jenkins"]
 ENV JENKINS_HOME /mnt/jenkins
 ENV HOME /mnt/jenkins

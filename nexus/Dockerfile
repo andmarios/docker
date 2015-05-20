@@ -1,5 +1,5 @@
 FROM centos:latest
-MAINTAINER Marios Andreopoulos opensource@andmarios.com
+MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release
 RUN yum install -y git java-1.7.0-openjdk-headless nano emacs-nox wget net-tools tar
@@ -14,9 +14,7 @@ RUN tar xzvf /tmp/nexus-bundle.tar.gz -C /opt/sonatype-nexus --strip-components=
 # Since we use shared volumes and bind mounts, we want a standardized UID/GID. We use a number above `login.defs` max
 # Nexus UID/GID: 61002
 VOLUME ["/mnt/nexus"]
-RUN useradd --user-group --uid 61002 --home-dir /mnt/nexus nexus && \
-    groupmod --gid 61002 nexus && \
-    usermod  --gid 61002 nexus
+RUN useradd --user-group --uid 61002 --gid 61002 --home-dir /mnt/nexus nexus && \
 RUN chown -R nexus:nexus /mnt/nexus /opt/sonatype-nexus
 
 # Set paths

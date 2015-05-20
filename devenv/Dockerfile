@@ -1,5 +1,5 @@
 FROM centos:latest
-MAINTAINER Marios Andreopoulos opensource@andmarios.com
+MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release && \
     yum -y update && \
@@ -35,3 +35,5 @@ WORKDIR /home/dev
 
 ENV HOME="/home/dev" GOPATH="/home/dev/go"
 RUN mkdir /home/dev/go && go get -u -v github.com/nsf/gocode
+
+ENTRYPOINT ["bash"]
