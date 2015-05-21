@@ -85,8 +85,8 @@
 (global-set-key "\M-d" 'delete-word)
 (global-set-key "\M-h" 'backward-delete-word)
 ;;(global-set-key "\M-u" 'zap-to-char)
-(global-set-key (kbd "<home>") 'beginning-of-line)
-(global-set-key (kbd "<end>") 'end-of-line)
+;;(global-set-key (kbd "<home>") 'beginning-of-line)
+(global-set-key [select] 'end-of-line)
 
 ;; ---------------------------
 ;; -- JS Mode configuration --
