@@ -6,7 +6,7 @@ RUN yum install -y epel-release && \
     yum install -y git golang java-1.7.0-openjdk-headless \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
-        python-libcloud pyOpenSSL && \
+        python-libcloud pyOpenSSL htop nload iftop && \
     /etc/cron.daily/mlocate && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
@@ -24,7 +24,8 @@ ADD https://raw.githubusercontent.com/ansible/ansible/stable-1.9/plugins/invento
     /home/dev/ansible/
 
 RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
-    tar xf google-cloud-sdk.tar.gz -C /usr/local/share/ && rm google-cloud-sdk.tar.gz && \
+    tar xf google-cloud-sdk.tar.gz -C /usr/local/share/ && \
+    rm google-cloud-sdk.tar.gz && \
     /usr/local/share/google-cloud-sdk/install.sh --disable-installation-options \
         --usage-reporting false --bash-completion true --rc-path /home/dev/.bashrc \
         --path-update true && \
@@ -35,5 +36,7 @@ WORKDIR /home/dev
 
 ENV HOME="/home/dev" GOPATH="/home/dev/go"
 RUN mkdir /home/dev/go && go get -u -v github.com/nsf/gocode
+# Emacs will probably exit with an error code ≠ 0 but we do not care.
+RUN emacs --kill --daemon || echo "Unimportant Error"
 
-ENTRYPOINT ["bash"]
+CMD ["bash"]

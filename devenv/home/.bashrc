@@ -50,13 +50,21 @@ alias mnstat="netstat -p -l -n | grep -i"
 [ ! -f ~/.ssh/google_compute_engine ] && mkdir -p ~/.ssh && ssh-keygen -f ~/.ssh/google_compute_engine -N ''
 # If not credentialed and there are some credentials, use them:
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
-if [ -d ~/.gcecreds ]; then
-    mkdir -p ~/.gcecredsreal
-    sudo install -o dev -g dev -m 600 ~/.gcecreds/* ~/.gcecredsreal/
+if [ -d ~/.secrets/gcecreds ]; then
+    mkdir -p ~/.gcecreds
+    echo "Installing GCE credentials"
+    sudo install -o dev -g dev -m 600 ~/.secrets/gcecreds/* ~/.gcecreds/
     if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
-        echo "Activating GCE"
-        /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecredsreal/account) --key-file ~/.gcecredsreal/key.pem
+        echo "Activating GCE account"
+        /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/account) --key-file ~/.gcecreds/key.pem
         sleep 2
-        /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecredsreal/account)
+        /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/account)
     fi
+fi
+
+# Install ssh keys and settings if needed
+if [ -d ~/.secrets/ssh ]; then
+    echo "Installing SSH keys and settings"
+    mkdir -p ~/.ssh
+    sudo install -o dev -g dev -m 600 ~/.secrets/ssh ~/.ssh/
 fi
