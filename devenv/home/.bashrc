@@ -53,7 +53,7 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 if [ -d ~/.secrets/gcecreds ]; then
     mkdir -p ~/.gcecreds
     echo "Installing GCE credentials"
-    sudo install -o dev -g dev -m 600 ~/.secrets/gcecreds/* ~/.gcecreds/
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.secrets/gcecreds/* /home/dev/.gcecreds/'
     if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
         echo "Activating GCE account"
         /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/account) --key-file ~/.gcecreds/key.pem
@@ -66,5 +66,5 @@ fi
 if [ -d ~/.secrets/ssh ]; then
     echo "Installing SSH keys and settings"
     mkdir -p ~/.ssh
-    sudo install -o dev -g dev -m 600 ~/.secrets/ssh ~/.ssh/
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.secrets/ssh/* /home/dev/.ssh/'
 fi
