@@ -50,21 +50,63 @@ alias mnstat="netstat -p -l -n | grep -i"
 [ ! -f ~/.ssh/google_compute_engine ] && mkdir -p ~/.ssh && ssh-keygen -f ~/.ssh/google_compute_engine -N ''
 # If not credentialed and there are some credentials, use them:
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
-if [ -d ~/.secrets/gcecreds ]; then
+if [ -f ~/.setup/gce.account ] && [ -f ~/.setup/gce.key ]; then
     mkdir -p ~/.gcecreds
     echo "Installing GCE credentials"
-    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.secrets/gcecreds/* /home/dev/.gcecreds/'
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/gce.account /home/dev/.setup/gce.key /home/dev/.gcecreds/'
     if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
-        echo "Activating GCE account"
-        /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/account) --key-file ~/.gcecreds/key.pem
-        sleep 2
-        /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/account)
+        read -p "Do you want me to activate the GCE account? [y/N] " -n 2 -r
+        if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
+            echo "Activating GCE account"
+            /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/gce.account) --key-file ~/.gcecreds/gce.key
+            sleep 2
+            /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/gce.account)
+        fi
     fi
 fi
 
 # Install ssh keys and settings if needed
-if [ -d ~/.secrets/ssh ]; then
+if [ -d ~/.setup/ssh ]; then
     echo "Installing SSH keys and settings"
     mkdir -p ~/.ssh
-    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.secrets/ssh/* /home/dev/.ssh/'
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/ssh/* /home/dev/.ssh/'
+fi
+
+# Optional start SSH agent
+REPLY=""
+read -p "Do you want me to start the ssh-agent to cache your ssh keys? [y/N] " -n 2 -r
+if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
+    eval $(ssh-agent)
+    # add id_rsa
+    ssh-add
+    # add other keys set in ssh config
+    if [ -f /home/dev/.ssh/config ]; then
+        for i in $(grep IdentityFile ~/.ssh/config | sed -e 's/.*IdentityFile //' | sort -u); do
+            eval i=$i
+            ssh-add $i
+        done
+    fi
+fi
+
+# Clone / pull repos
+REPLY=""
+read -p "Do you want me to clone new / pull existing repositories? [y/N] " -n 2 -r
+if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
+    # Pull existing repos
+    for i in $(ls /home/dev/sources/) ; do
+        pushd /home/dev/sources/$i
+        git pull
+        popd
+    done
+    # Clone new repos
+    if [ -f /home/dev/.setup/repos ]; then
+        sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/repos /home/dev/.repos'
+        while read LINE; do
+            if [ ! -d /home/dev/sources/$(basename -s .git $LINE) ]; then
+                pushd /home/dev/sources
+                git clone $LINE
+                popd
+            fi
+        done </home/dev/.repos
+    fi
 fi

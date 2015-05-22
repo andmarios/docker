@@ -17,7 +17,8 @@ RUN ln -s /docker.sock /run/docker.sock
 RUN useradd dev -u 1000 -m && \
     echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers && \
     usermod -a -G root dev && \
-    mkdir /home/dev/ansible
+    mkdir /home/dev/{ansible,sources,.setup,.ssh} && \
+    chmod 700 /home/dev/{.setup,.ssh}
 
 ADD home/ /home/dev
 ADD https://raw.githubusercontent.com/ansible/ansible/stable-1.9/plugins/inventory/gce.py \
