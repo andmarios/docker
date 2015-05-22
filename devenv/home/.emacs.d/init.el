@@ -7,7 +7,8 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq package-list '(cl ido ffap ansi-color recentf linum smooth-scrolling
                         whitespace yaml-mode go-mode auto-complete
-                        go-autocomplete sws-mode jade-mode web-mode))
+                        go-autocomplete sws-mode jade-mode web-mode
+                        scala-mode2 dockerfile-mode markdown-mode+))
 
 ;; list the repositories containing them
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
@@ -37,6 +38,9 @@
 (require 'whitespace)
 (require 'dired-x)
 (require 'compile)
+(require 'scala-mode2)
+(require 'dockerfile-mode)
+(require 'markdown-mode+)
 
 (ido-mode t)
 (menu-bar-mode -1)
