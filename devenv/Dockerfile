@@ -6,7 +6,7 @@ RUN yum install -y epel-release && \
     yum install -y git golang java-1.7.0-openjdk-headless \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
-        python-libcloud pyOpenSSL htop nload iftop && \
+        python-libcloud pyOpenSSL htop nload iftop vim-enhanced golang-vim && \
     /etc/cron.daily/mlocate && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
