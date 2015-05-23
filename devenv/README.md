@@ -2,10 +2,12 @@
 
 This is a basic devops environment. It includes in random order:
 
-- gcc, golang, openjdk
+- gcc, golang, openjdk, python, ruby, scala (maven and sbt) etc
 - emacs pre-configured with syntax highlighting and some sugar
 - vim pre-configured with syntax highlighting
 - golang autocomplete support for both emacs and vim
+- scala autocomplete support for emacs (ensime, sbt)
+- html autocomplete support for both emacs and vim
 - git with bash completion enabled
 - docker support with bash completion enabled
 - tmux pre-configured

@@ -8,7 +8,9 @@
 (setq package-list '(cl ido ffap ansi-color recentf linum smooth-scrolling
                         whitespace yaml-mode go-mode auto-complete
                         go-autocomplete sws-mode jade-mode web-mode
-                        scala-mode2 dockerfile-mode markdown-mode+))
+                        scala-mode2 dockerfile-mode markdown-mode+ ensime
+                        ac-html ac-html-bootstrap ac-html-csswatcher
+                        apache-mode nginx-mode))
 
 ;; list the repositories containing them
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
@@ -41,6 +43,7 @@
 (require 'scala-mode2)
 (require 'dockerfile-mode)
 (require 'markdown-mode+)
+(require 'ac-python)
 
 (ido-mode t)
 (menu-bar-mode -1)
@@ -109,8 +112,13 @@
 
 
 ;; By AndMarios
-
 (require 'web-mode)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-current-column-highlight t)
+(require 'web-mode)
+(require 'ac-html)
+(require 'ac-html-bootstrap)
+(require 'ac-html-csswatcher)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
@@ -121,8 +129,16 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (setq web-mode-engines-alist
       '(("php"    . "\\.phtml\\'")
-        ("blade"  . "\\.blade\\."))
-)
+        ("blade"  . "\\.blade\\.")
+        ("html"   . "\\.html\\'")
+        ("html"   . "\\.htm\\'")))
+(setq web-mode-enable-css-colorization t)
+(add-to-list 'ac-modes 'web-mode)
+(add-hook 'html-mode-hook 'ac-html-enable)
+(add-to-list 'web-mode-ac-sources-alist
+             '("html" . (ac-source-html-attribute-value
+                         ac-source-html-tag
+                         ac-source-html-attribute)))
 
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
@@ -141,6 +157,7 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (global-auto-complete-mode t)
+;; Run gofmt on save
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;(require 'site-gentoo)
@@ -154,3 +171,6 @@
 
 ;; Associate tmpl (golang's templates) with web mode:
 (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
