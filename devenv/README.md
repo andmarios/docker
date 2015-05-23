@@ -42,17 +42,29 @@ If your files are inside `/path/to/dsetup`, then:
 
 You may provide your `$HOME/.ssh` directory so that you will have your ssh keys and settings inside the container.
 The ssh-agent will ask you to activate your `id_rsa` key and any other key mentioned inside `$HOME/.ssh/config`.
+If you don't want, then just press enter instead of providing your passphrase.
 
     $ docker run -it -v /home/USER/.ssh:/home/dev/.setup-ssh andmarios/devenv
 
-## Auto clone/pull repositories
+| The reason we don't bind-mount directly to `/home/dev/.ssh` is that your user may have a different uid/gid from the
+| container's user. Bash scripts inside the container take care of this.
 
-Create a file name `repos` and your git repositories inside, one per line.
+## Auto clone/pull repositories and custom gitconfig
+
+Create a file named `repos` and add your git repositories inside, one per line.
 Then if your file is inside `/path/to/dsetup`:
 
     $ docker run -it -v /path/to/dsetup:/home/dev/.setup andmarios/devenv
 
 _Obviously if your repositories need SSH keys for access, you have to provide them as mentioned above._
+
+You can also supply your `~/.gitconfig` file as `gitconfig` inside `/path/to/dsetup`, so that git will be
+preconfigured with your settings.
+If you don't want to copy it, you can always bind mount the original:
+
+    $ docker run -it -v /path/to/dsetup:/home/dev/.setup -v /home/USER/.gitconfig:/home/dev/.setup/gitconfig andmarios/devenv
+
+__I suggest to copy your gitconfig though.__
 
 ## Docker support
 

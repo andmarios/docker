@@ -21,11 +21,13 @@ pythonserver()
     python -m SimpleHTTPServer $1 || python -m http.server $1
 }
 
-# Set git variables
-git config --global user.name "Marios Andreopoulos"
-git config --global user.email opensource@andmarios.com
-git config --global core.editor nano
-git config --global push.default simple
+# Set git variables if not setup. Later we override this with supplied gitconfig
+if [ ! -f ~/.gitconfig ]; then
+    git config --global user.name "Marios Andreopoulos"
+    git config --global user.email opensource@andmarios.com
+    git config --global core.editor nano
+    git config --global push.default simple
+fi
 
 # Replace container IDs with container IPs for docker ps.
 dockip()
@@ -68,6 +70,13 @@ if [ -d ~/.setup-ssh ]; then
     echo "Installing SSH keys and settings"
     mkdir -p ~/.ssh
     sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup-ssh/* /home/dev/.ssh/'
+fi
+
+# Install custom git config if provided
+if [ -f ~/.setup/gitconfig ]; then
+    echo "Installing gitconfig"
+    rm -f ~/.gitconfig
+    sudo su -c 'install -o dev -g dev -m 660 /home/dev/.setup/gitconfig /home/dev/.gitconfig'
 fi
 
 # Optional start SSH agent
