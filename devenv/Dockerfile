@@ -47,7 +47,7 @@ ENV HOME="/home/dev" GOPATH="/home/dev/.go"
 # This is too slow to have to rebuild.
 RUN sbt exit
 # Emacs will probably exit with an error code ≠ 0 but we do not care.
-RUN go get -u -v github.com/nsf/gocode
+RUN go get -u -v github.com/nsf/gocode && \
     emacs --kill --daemon || echo "Unimportant Error" && \
     mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && \
