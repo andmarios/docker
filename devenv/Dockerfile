@@ -1,12 +1,12 @@
 FROM centos:latest
 MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
-RUN yum install -y epel-release && \
+RUN yum install -y epel-release deltarpm && \
     yum -y update && \
     yum install -y git golang java-1.7.0-openjdk-headless \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
-        python-libcloud pyOpenSSL htop nload iftop vim-enhanced golang-vim && \
+        python-libcloud pyOpenSSL htop nload iftop vim-enhanced && \
     /etc/cron.daily/mlocate && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
@@ -17,8 +17,8 @@ RUN ln -s /docker.sock /run/docker.sock
 RUN useradd dev -u 1000 -m && \
     echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers && \
     usermod -a -G root dev && \
-    mkdir /home/dev/{ansible,sources,.setup,.ssh} && \
-    chmod 700 /home/dev/{.setup,.ssh}
+    mkdir /home/dev/{ansible,sources,.go,.setup,.setup-ssh,.ssh} && \
+    chmod 700 /home/dev/{.setup,.setup-ssh,.ssh}
 
 ADD home/ /home/dev
 ADD https://raw.githubusercontent.com/ansible/ansible/stable-1.9/plugins/inventory/gce.py \
@@ -27,17 +27,24 @@ ADD https://raw.githubusercontent.com/ansible/ansible/stable-1.9/plugins/invento
 RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
     tar xf google-cloud-sdk.tar.gz -C /usr/local/share/ && \
     rm google-cloud-sdk.tar.gz && \
-    /usr/local/share/google-cloud-sdk/install.sh --disable-installation-options \
-        --usage-reporting false --bash-completion true --rc-path /home/dev/.bashrc \
+    /usr/local/share/google-cloud-sdk/install.sh \
+        --disable-installation-options \
+        --usage-reporting false \
+        --bash-completion true \
+        --rc-path /home/dev/.bashrc \
         --path-update true && \
     chown -R dev:dev /home/dev && rm /home/dev/.emacs
 
 USER dev
 WORKDIR /home/dev
 
-ENV HOME="/home/dev" GOPATH="/home/dev/go"
-RUN mkdir /home/dev/go && go get -u -v github.com/nsf/gocode
+ENV HOME="/home/dev" GOPATH="/home/dev/.go"
+RUN go get -u -v github.com/nsf/gocode
 # Emacs will probably exit with an error code ≠ 0 but we do not care.
 RUN emacs --kill --daemon || echo "Unimportant Error"
+RUN mkdir -p ~/.vim/autoload ~/.vim/bundle && \
+    curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && \
+    git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go && \
+    .go/src/github.com/nsf/gocode/vim/pathogen_update.sh
 
 CMD ["bash"]

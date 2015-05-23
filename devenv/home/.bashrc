@@ -8,8 +8,8 @@ export HISTCONTROL=ignorespace:ignoredups
 export HISTSIZE=10000
 
 # Go path
-export PATH="${PATH}:${HOME}/go/bin"
-export GOPATH=${HOME}/go
+export PATH="${PATH}:${HOME}/.go/bin"
+export GOPATH=${HOME}/.go
 
 # Useful and nice git logs
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -25,6 +25,7 @@ pythonserver()
 git config --global user.name "Marios Andreopoulos"
 git config --global user.email opensource@andmarios.com
 git config --global core.editor nano
+git config --global push.default simple
 
 # Replace container IDs with container IPs for docker ps.
 dockip()
@@ -55,37 +56,30 @@ if [ -f ~/.setup/gce.account ] && [ -f ~/.setup/gce.key ]; then
     echo "Installing GCE credentials"
     sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/gce.account /home/dev/.setup/gce.key /home/dev/.gcecreds/'
     if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
-        read -p "Do you want me to activate the GCE account? [y/N] " -n 2 -r
-        if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
-            echo "Activating GCE account"
-            /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/gce.account) --key-file ~/.gcecreds/gce.key
-            sleep 2
-            /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/gce.account)
-        fi
+        echo "Activating GCE account"
+        /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/gce.account) --key-file ~/.gcecreds/gce.key
+        sleep 1
+        /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/gce.account)
     fi
 fi
 
 # Install ssh keys and settings if needed
-if [ -d ~/.setup/ssh ]; then
+if [ -d ~/.setup-ssh ]; then
     echo "Installing SSH keys and settings"
     mkdir -p ~/.ssh
-    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/ssh/* /home/dev/.ssh/'
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup-ssh/* /home/dev/.ssh/'
 fi
 
 # Optional start SSH agent
-REPLY=""
-read -p "Do you want me to start the ssh-agent to cache your ssh keys? [y/N] " -n 2 -r
-if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
-    eval $(ssh-agent)
-    # add id_rsa
-    ssh-add
-    # add other keys set in ssh config
-    if [ -f /home/dev/.ssh/config ]; then
-        for i in $(grep IdentityFile ~/.ssh/config | sed -e 's/.*IdentityFile //' | sort -u); do
-            eval i=$i
-            ssh-add $i
-        done
-    fi
+eval $(ssh-agent)
+# add id_rsa
+ssh-add
+# add other keys set in ssh config
+if [ -f /home/dev/.ssh/config ]; then
+    for i in $(grep IdentityFile ~/.ssh/config | sed -e 's/.*IdentityFile //' | sort -u); do
+        eval i=$i
+        ssh-add $i
+    done
 fi
 
 # Clone / pull repos
