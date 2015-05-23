@@ -12,14 +12,16 @@ This is a basic devops environment. It includes in random order:
 - ssh-agent
 - ansible
 - various tools (bind-utils, mlocate, jq, htop, etc)
-- various custom bash commands, try `dockip` or `gl` inside a git repo
+- various custom bash commands, try `dockip` or `gl` (inside a git repo)
 
 Optional:
+
 - GCE project auto-activation support (through service account)
 - ability to use provided ssh keys and settings (i.e use your `~/.ssh`)
 - automatic clone new / pull existing git repositories
 
 Some future plans:
+
 - autoconfigure ansible with GCE project
 - scala autocomplete for emacs and vim
 - better ansible configuration
