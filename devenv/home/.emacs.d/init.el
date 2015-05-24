@@ -43,7 +43,6 @@
 (require 'scala-mode2)
 (require 'dockerfile-mode)
 (require 'markdown-mode+)
-(require 'ac-python)
 
 (ido-mode t)
 (menu-bar-mode -1)
@@ -113,9 +112,6 @@
 
 ;; By AndMarios
 (require 'web-mode)
-(setq web-mode-enable-current-element-highlight t)
-(setq web-mode-enable-current-column-highlight t)
-(require 'web-mode)
 (require 'ac-html)
 (require 'ac-html-bootstrap)
 (require 'ac-html-csswatcher)
@@ -133,6 +129,8 @@
         ("html"   . "\\.html\\'")
         ("html"   . "\\.htm\\'")))
 (setq web-mode-enable-css-colorization t)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-current-column-highlight t)
 (add-to-list 'ac-modes 'web-mode)
 (add-hook 'html-mode-hook 'ac-html-enable)
 (add-to-list 'web-mode-ac-sources-alist

@@ -57,6 +57,7 @@ RUN go get -u -v github.com/nsf/gocode && \
         ~/.vim/bundle/vim-scala && \
     mkdir -p ~/.sbt/0.13/plugins/ && \
     echo 'addSbtPlugin("org.ensime" % "ensime-sbt" % "0.1.6")' >> \
-        ~/.sbt/0.13/plugins/plugins.sbt
+        ~/.sbt/0.13/plugins/plugins.sbt && \
+    sbt exit
 
 CMD ["bash"]
