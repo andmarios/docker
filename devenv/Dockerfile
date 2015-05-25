@@ -58,7 +58,10 @@ RUN go get -u -v github.com/nsf/gocode && \
     mkdir -p ~/.sbt/0.13/plugins/ && \
     echo 'addSbtPlugin("org.ensime" % "ensime-sbt" % "0.1.6")' >> \
         ~/.sbt/0.13/plugins/plugins.sbt && \
-    sbt exit && \
-    /etc/cron.daily/mlocate
+    sbt exit
 
+USER root
+RUN /etc/cron.daily/mlocate
+
+USER dev
 CMD ["bash"]
