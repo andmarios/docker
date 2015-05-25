@@ -3,6 +3,7 @@ MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release deltarpm && \
     yum -y update && \
+    yum -y group install "Development Tools" && \
     curl https://bintray.com/sbt/rpm/rpm | \
         tee /etc/yum.repos.d/bintray-sbt-rpm.repo && \
     curl https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo | \
@@ -11,8 +12,8 @@ RUN yum install -y epel-release deltarpm && \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
-        sbt apache-maven && \
-    /etc/cron.daily/mlocate && \
+        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm && \
+    gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
 
@@ -22,12 +23,9 @@ RUN ln -s /docker.sock /run/docker.sock
 RUN useradd dev -u 1000 -m && \
     echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers && \
     usermod -a -G root dev && \
-    mkdir /home/dev/{ansible,sources,.go,.setup,.setup-ssh,.ssh} && \
-    chmod 700 /home/dev/{.setup,.setup-ssh,.ssh}
+    mkdir /home/dev/{sources,.gcecreds,.go,.setup,.setup-ssh,.ssh}
 
 ADD home/ /home/dev
-ADD https://raw.githubusercontent.com/ansible/ansible/stable-1.9/plugins/inventory/gce.py \
-    /home/dev/ansible/
 
 RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
     tar xf google-cloud-sdk.tar.gz -C /usr/local/share/ && \
@@ -38,7 +36,9 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
         --bash-completion true \
         --rc-path /home/dev/.bashrc \
         --path-update true && \
-    chown -R dev:dev /home/dev && rm /home/dev/.emacs
+    chown -R dev:dev /home/dev && \
+    rm /home/dev/.emacs && \
+    chmod 700 /home/dev/{.gcecreds,.setup,.setup-ssh,.ssh}
 
 USER dev
 WORKDIR /home/dev
@@ -58,6 +58,7 @@ RUN go get -u -v github.com/nsf/gocode && \
     mkdir -p ~/.sbt/0.13/plugins/ && \
     echo 'addSbtPlugin("org.ensime" % "ensime-sbt" % "0.1.6")' >> \
         ~/.sbt/0.13/plugins/plugins.sbt && \
-    sbt exit
+    sbt exit && \
+    /etc/cron.daily/mlocate
 
 CMD ["bash"]

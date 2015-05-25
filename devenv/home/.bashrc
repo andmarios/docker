@@ -56,12 +56,19 @@ export CLOUDSDK_PYTHON_SITEPACKAGES=1
 if [ -f ~/.setup/gce.account ] && [ -f ~/.setup/gce.key ]; then
     mkdir -p ~/.gcecreds
     echo "Installing GCE credentials"
-    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/gce.account /home/dev/.setup/gce.key /home/dev/.gcecreds/'
+    sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup/gce.* /home/dev/.gcecreds/'
     if /usr/local/share/google-cloud-sdk/bin/gcloud auth list 2>&1 | grep -sq 'No credentialed accounts.' ; then
         echo "Activating GCE account"
         /usr/local/share/google-cloud-sdk/bin/gcloud auth activate-service-account $(cat ~/.gcecreds/gce.account) --key-file ~/.gcecreds/gce.key
         sleep 1
         /usr/local/share/google-cloud-sdk/bin/gcloud config set account $(cat ~/.gcecreds/gce.account)
+    fi
+    # Create and set ansible's secrets.py and gce.ini for accessing GCE project
+    if [ -f ~/.gcecreds/gce.project ]; then
+        echo "GCE_PARAMS = ('$(cat ~/.gcecreds/gce.account)', '/home/dev/.gcecreds/gce.key')" > ~/.gcecreds/secrets.py
+        echo "GCE_KEYWORD_PARAMS = {'project': '$(cat /home/dev/.gcecreds/gce.project)'}" >> ~/.gcecreds/secrets.py
+        export PYTHONPATH=/home/dev/.gcecreds/
+        export GCE_INI_PATH=/home/dev/.gcecreds/gce.ini
     fi
 fi
 
@@ -113,3 +120,15 @@ if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
         done </home/dev/.repos
     fi
 fi
+
+echo -e "\033[0;36mWelcome and remember: \033[1;36mdo not panic.\033[0m"
+
+print_exitnotice(){
+        echo -e "\033[0;36m
+You exited devenv container. You probably can access it again (and not a new
+container) if you didn't use the docker '--rm' option by running:
+\033[1;0m $ docker start -ai $HOSTNAME
+\033[1;36mSo long, and thanks for all the fish.\033[0m"
+}
+
+trap print_exitnotice EXIT

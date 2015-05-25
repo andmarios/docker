@@ -1,8 +1,12 @@
-# Dev Environment with some extra sauce
+# DevOps Environment with some extra sauce
 
-This is a basic devops environment. It includes in random order:
+This is a text-based __development__ and __operations__ environment. It is neither basic nor slim.
+Its purpose is to let a developer push to his work repositories or manage his work servers
+in under one minute since `docker run`.
 
-- gcc, golang, openjdk, python, ruby, scala (maven and sbt) etc
+It includes in random order:
+
+- gcc, golang, openjdk, python, ruby, scala (maven and sbt), development tools, nodejs etc
 - emacs pre-configured with syntax highlighting and some sugar
 - vim pre-configured with syntax highlighting
 - golang autocomplete support for both emacs and vim
@@ -15,20 +19,16 @@ This is a basic devops environment. It includes in random order:
 - ansible
 - various tools (bind-utils, mlocate, jq, htop, etc)
 - various custom bash commands, try `dockip` or `gl` (inside a git repo)
+- jekyll
 
 Optional:
 
 - GCE project auto-activation support (through service account)
 - ability to use provided ssh keys and settings (i.e use your `~/.ssh`)
 - automatic clone new / pull existing git repositories
+- ansible automatic GCE configuration
 
-Some future plans:
-
-- autoconfigure ansible with GCE project
-- scala autocomplete for emacs and vim
-- better ansible configuration
-
-Inside the container you start as a normal user (`dev`, uid 1000). This is only for your safety and to help with setup-use cases separation.
+Inside the container you start as a normal user (`dev`, uid 1000). This is only for your safety and to help with setup/use cases separation.
 You have `sudo` access if you need to run commands as the superuser (e.g `yum install`).
 
 ## GCE project auto-activation
@@ -40,11 +40,17 @@ If your files are inside `/path/to/dsetup`, then:
 
     $ docker run -it -v /path/to/dsetup:/home/dev/.setup andmarios/devenv
 
+If you want to enable automatic __ansible__ GCE support you have to provide one more file named `gce.project` that contains your
+GCE project id. Example for creating `gce.account` and `gce.project`:
+
+    $ echo "MYID@developer.gserviceaccount.com" > gce.account
+    $ echo "MYPROJECTID" > gce.project
+
 ## Provide SSH keys and settings
 
 You may provide your `$HOME/.ssh` directory so that you will have your ssh keys and settings inside the container.
 The ssh-agent will ask you to activate your `id_rsa` key and any other key mentioned inside `$HOME/.ssh/config`.
-If you don't want, then just press enter instead of providing your passphrase.
+If you don't want to use the ssh-agent, press enter instead of providing your passphrase when asked.
 
     $ docker run -it -v /home/USER/.ssh:/home/dev/.setup-ssh andmarios/devenv
 
@@ -75,7 +81,3 @@ The container can use an external docker daemon through bind mounting its socket
     $ docker run -it -v /run/docker.sock:/run/docker.sock andmarios/devenv
 
 If your docker socket is owned by root you can use it directly. If it is owned by someone else, you need to use sudo for the docker commands.
-
----
-
-__work in progress__
