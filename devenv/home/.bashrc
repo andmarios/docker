@@ -88,8 +88,9 @@ fi
 
 # Optional start SSH agent
 eval $(ssh-agent)
-# add id_rsa
+# add id_rsa and google_compute_engine
 ssh-add
+ssh-add ~/.ssh/google_compute_engine
 # add other keys set in ssh config
 if [ -f /home/dev/.ssh/config ]; then
     for i in $(grep IdentityFile ~/.ssh/config | sed -e 's/.*IdentityFile //' | sort -u); do
@@ -121,7 +122,7 @@ if [[ "${REPLY}" =~ ^[Yy]$ ]]; then
     fi
 fi
 
-echo -e "\033[0;36mWelcome and remember: \033[1;36mdo not panic.\033[0m"
+echo -e "\033[0;36mWelcome and remember; \033[1;36mdo not panic\033[0;36m.\033[0m"
 
 print_exitnotice(){
         echo -e "\033[0;36m
