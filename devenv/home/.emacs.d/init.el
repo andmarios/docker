@@ -10,7 +10,7 @@
                         go-autocomplete sws-mode jade-mode web-mode
                         scala-mode2 dockerfile-mode markdown-mode+ ensime
                         ac-html ac-html-bootstrap ac-html-csswatcher
-                        apache-mode nginx-mode))
+                        apache-mode nginx-mode ansible ansible-doc))
 
 ;; list the repositories containing them
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
@@ -43,6 +43,7 @@
 (require 'scala-mode2)
 (require 'dockerfile-mode)
 (require 'markdown-mode+)
+(require 'ansible)
 
 (ido-mode t)
 (menu-bar-mode -1)

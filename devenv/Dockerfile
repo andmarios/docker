@@ -12,7 +12,8 @@ RUN yum install -y epel-release deltarpm && \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
-        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm && \
+        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
+        tmux && \
     gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
