@@ -79,7 +79,7 @@ if [ ! -n "$TMUX" ]; then
     fi
 
     # Install ssh keys and settings if needed
-    if [ -d ~/.setup-ssh ]; then
+    if [ "$(sudo ls ~/.setup-ssh | wc -l)" -gt 0 ]; then
         echo "Installing SSH keys and settings"
         mkdir -p ~/.ssh
         sudo su -c 'install -o dev -g dev -m 600 /home/dev/.setup-ssh/* /home/dev/.ssh/'
