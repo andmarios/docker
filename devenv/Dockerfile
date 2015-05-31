@@ -8,12 +8,11 @@ RUN yum install -y epel-release deltarpm && \
         tee /etc/yum.repos.d/bintray-sbt-rpm.repo && \
     curl https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo | \
         tee /etc/yum.repos.d/epel-apache-maven.repo && \
-    yum install -y git golang java-1.7.0-openjdk-headless \
+    yum install -y git golang java-1.7.0-openjdk-headless openssl tmux nmap \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
-        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
-        tmux && \
+        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm && \
     gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 

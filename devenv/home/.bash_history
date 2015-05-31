@@ -5,3 +5,4 @@ git commit -a --amend
 gl
 dockip
 memusage
+openssl rsa -in foo.key.encrypted -out foo.key
