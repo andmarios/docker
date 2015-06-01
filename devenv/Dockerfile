@@ -1,7 +1,9 @@
 FROM centos:latest
 MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
-RUN yum install -y epel-release deltarpm && \
+RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
+    rm /etc/rpm/macros.imgcreate && \
+    yum install -y epel-release deltarpm && \
     yum -y update && \
     yum -y group install "Development Tools" && \
     curl https://bintray.com/sbt/rpm/rpm | \
@@ -12,7 +14,8 @@ RUN yum install -y epel-release deltarpm && \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
-        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm && \
+        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
+        sloccount man man-pages && \
     gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
