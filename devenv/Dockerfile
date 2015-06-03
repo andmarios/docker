@@ -2,7 +2,7 @@ FROM centos:latest
 MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
-    rm /etc/rpm/macros.imgcreate && \
+    rm -f /etc/rpm/macros.imgcreate && \
     yum install -y epel-release deltarpm && \
     yum -y update && \
     yum -y group install "Development Tools" && \
@@ -15,7 +15,7 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
         ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
-        sloccount man man-pages && \
+        sloccount man man-pages bc tree && \
     gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
