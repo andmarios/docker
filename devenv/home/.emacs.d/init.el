@@ -10,7 +10,7 @@
                         go-autocomplete sws-mode jade-mode web-mode
                         scala-mode2 dockerfile-mode markdown-mode+ ensime
                         ac-html ac-html-bootstrap ac-html-csswatcher
-                        apache-mode nginx-mode ansible ansible-doc))
+                        apache-mode nginx-mode ansible ansible-doc magit))
 
 ;; list the repositories containing them
 (setq package-archives '(("melpa" . "http://melpa.org/packages/")
@@ -43,7 +43,9 @@
 (require 'scala-mode2)
 (require 'dockerfile-mode)
 (require 'markdown-mode+)
-(require 'ansible)
+(require 'ansible-doc)
+(require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 (ido-mode t)
 (menu-bar-mode -1)

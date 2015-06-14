@@ -15,7 +15,7 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
         ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
-        sloccount man man-pages bc tree && \
+        sloccount man man-pages bc tree tig && \
     gem install jekyll && \
     echo "progress = dot:mega" | tee /etc/wgetrc
 
@@ -46,7 +46,7 @@ RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
 USER dev
 WORKDIR /home/dev
 
-ENV HOME="/home/dev" GOPATH="/home/dev/.go"
+ENV HOME="/home/dev" GOPATH="/home/dev/.go" LANG="en_US.UTF-8" LC_ALL="en_US.UTF-8"
 # This is too slow to have to rebuild.
 RUN sbt exit
 # Emacs will probably exit with an error code ≠ 0 but we do not care.
