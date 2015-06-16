@@ -16,9 +16,10 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
         python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
         ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
         sloccount man man-pages bc tree tig && \
-    gem install jekyll && \
+    echo "gem: --no-ri --no-rdoc" >> /etc/gemrc && \
+    gem install jekyll asciidoctor coderay pygments.rb && \
+    gem install --pre asciidoctor-pdf && \
     echo "progress = dot:mega" | tee /etc/wgetrc
-
 
 # Interestingly on CentOS 7 you can't bind mount a socket inside /run
 RUN ln -s /docker.sock /run/docker.sock

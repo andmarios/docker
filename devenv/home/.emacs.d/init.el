@@ -6,7 +6,7 @@
 ;; ---------------------
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (setq package-list '(cl ido ffap ansi-color recentf linum smooth-scrolling
-                        whitespace yaml-mode go-mode auto-complete
+                        whitespace yaml-mode go-mode auto-complete adoc-mode
                         go-autocomplete sws-mode jade-mode web-mode
                         scala-mode2 dockerfile-mode markdown-mode+ ensime
                         ac-html ac-html-bootstrap ac-html-csswatcher
@@ -46,6 +46,7 @@
 (require 'ansible-doc)
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
+(require 'adoc-mode)
 
 (ido-mode t)
 (menu-bar-mode -1)

@@ -10,3 +10,5 @@ ansible-playbook -i inventory/ site.yml --tags debug-jenkins -v
 ssh -i ~/.ssh/ID -o StrictHostKeyChecking=no USER@HOST
 dig google.com
 ansible all -i inventory/ -m ping
+asciidoctor -a asciimath [FILE.ADOC]
+asciidoctor -a asciimath -r asciidoctor-pdf -b pdf -d article [FILE.ADOC]
