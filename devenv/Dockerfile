@@ -52,6 +52,9 @@ ENV HOME="/home/dev" GOPATH="/home/dev/.go" LANG="en_US.UTF-8" LC_ALL="en_US.UTF
 RUN sbt exit
 # Emacs will probably exit with an error code ≠ 0 but we do not care.
 RUN go get -u -v github.com/nsf/gocode && \
+    go get golang.org/x/tools/cmd/oracle && \
+    go get golang.org/x/tools/cmd/goimports && \
+    go get github.com/rogpeppe/godef && \
     emacs --kill --daemon || echo "Unimportant Error" && \
     mkdir -p ~/.vim/autoload ~/.vim/bundle && \
     curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim && \

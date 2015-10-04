@@ -6,10 +6,13 @@ export PS1="\[\033[1;31m\]\u\[\033[1;33m\]@\[\033[1;34m\]\h \[\033[1;36m\]\W\[\0
 # Also ignore duplicate entries
 export HISTCONTROL=ignorespace:ignoredups
 export HISTSIZE=10000
+export HISTTIMEFORMAT="%FT%T%z "
 
 # Go path
 export PATH="${PATH}:${HOME}/.go/bin"
 export GOPATH=${HOME}/.go
+
+export USER="$(whoami)"
 
 # Useful and nice git logs
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
