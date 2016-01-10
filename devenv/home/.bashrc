@@ -8,6 +8,9 @@ export HISTCONTROL=ignorespace:ignoredups
 export HISTSIZE=10000
 export HISTTIMEFORMAT="%FT%T%z "
 
+# Custom path
+export PATH="${PATH}:${HOME}/.bin"
+
 # Go path
 export PATH="${PATH}:${HOME}/.go/bin"
 export GOPATH=${HOME}/.go

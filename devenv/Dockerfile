@@ -65,7 +65,10 @@ RUN go get -u -v github.com/nsf/gocode && \
     mkdir -p ~/.sbt/0.13/plugins/ && \
     echo 'addSbtPlugin("org.ensime" % "ensime-sbt" % "0.1.6")' >> \
         ~/.sbt/0.13/plugins/plugins.sbt && \
-    sbt exit
+    sbt exit && \
+    git clone https://github.com/AGWA/git-crypt.git && \
+    cd git-crypt && make && mkdir ~/.bin && cp git-crypt ~/.bin/ && \
+    cd ../ && rm -rf git-crypt
 
 USER root
 RUN /etc/cron.daily/mlocate
