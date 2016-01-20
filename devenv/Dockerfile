@@ -68,7 +68,8 @@ RUN go get -u -v github.com/nsf/gocode && \
     sbt exit && \
     git clone https://github.com/AGWA/git-crypt.git && \
     cd git-crypt && make && mkdir ~/.bin && cp git-crypt ~/.bin/ && \
-    cd ../ && rm -rf git-crypt
+    cd ../ && rm -rf git-crypt && \
+    git config --global color.ui auto
 
 USER root
 RUN /etc/cron.daily/mlocate
