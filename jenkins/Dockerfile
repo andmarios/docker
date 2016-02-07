@@ -3,7 +3,21 @@ MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release
 RUN yum groupinstall -y 'Development Tools' && \
-    yum install -y git java-1.7.0-openjdk-headless java-1.7.0-openjdk-devel nano wget net-tools jq ncftp tar bzip2 sudo
+    yum install -y \
+        git \
+        java-1.7.0-openjdk-headless \
+        java-1.7.0-openjdk-devel \
+        nano \
+        wget \
+        net-tools \
+        jq \
+        ncftp \
+        tar \
+        bzip2 \
+        sudo \
+        python-sphinx \
+        python-sphinx_rtd_theme
+
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
 
 RUN curl -sL https://rpm.nodesource.com/setup | bash - && \
