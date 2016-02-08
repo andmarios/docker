@@ -14,9 +14,8 @@ RUN yum groupinstall -y 'Development Tools' && \
         ncftp \
         tar \
         bzip2 \
-        sudo \
-        python-sphinx \
-        python-sphinx_rtd_theme
+        sudo && \
+    pip install Sphinx
 
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
 
