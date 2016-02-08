@@ -15,7 +15,7 @@ RUN yum groupinstall -y 'Development Tools' && \
         tar \
         bzip2 \
         sudo \
-        pip && \
+        python-pip && \
     pip install Sphinx
 
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
