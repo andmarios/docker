@@ -19,7 +19,7 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
     echo "gem: --no-ri --no-rdoc" >> /etc/gemrc && \
     gem install jekyll asciidoctor coderay pygments.rb && \
     gem install --pre asciidoctor-pdf && \
-    pip install Sphinx
+    pip install Sphinx sphinxcontrib-actdiag sphinxcontrib-seqdiag sphinxcontrib-blockdiag sphinxcontrib-nwdiag
 
 # Interestingly on CentOS 7 you can't bind mount a socket inside /run
 RUN ln -s /docker.sock /run/docker.sock
