@@ -13,13 +13,14 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
     yum install -y git golang java-1.7.0-openjdk-headless openssl tmux nmap \
         java-1.7.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
-        python-libcloud pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
+        pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
         ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
         sloccount man man-pages bc tree tig telnet asciidoc python-pip && \
     echo "gem: --no-ri --no-rdoc" >> /etc/gemrc && \
     gem install jekyll asciidoctor coderay pygments.rb && \
     gem install --pre asciidoctor-pdf && \
-    pip install Sphinx sphinxcontrib-actdiag sphinxcontrib-seqdiag sphinxcontrib-blockdiag sphinxcontrib-nwdiag
+    pip install apache-libcloud Sphinx && \
+    pip install sphinxcontrib-blockdiag
 
 # Interestingly on CentOS 7 you can't bind mount a socket inside /run
 RUN ln -s /docker.sock /run/docker.sock
