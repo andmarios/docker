@@ -15,7 +15,8 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
         tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
         pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
         ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
-        sloccount man man-pages bc tree tig telnet asciidoc python-pip && \
+        sloccount man man-pages bc tree tig telnet asciidoc \
+        python-pip python-pillow && \
     echo "gem: --no-ri --no-rdoc" >> /etc/gemrc && \
     gem install jekyll asciidoctor coderay pygments.rb && \
     gem install --pre asciidoctor-pdf && \

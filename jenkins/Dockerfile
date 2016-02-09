@@ -15,7 +15,7 @@ RUN yum groupinstall -y 'Development Tools' && \
         tar \
         bzip2 \
         sudo \
-        python-pip && \
+        python-pip python-pillow && \
     pip install Sphinx && \
     pip install sphinxcontrib-blockdiag
 
