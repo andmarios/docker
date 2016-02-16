@@ -16,7 +16,7 @@ RUN yum groupinstall -y 'Development Tools' && \
         bzip2 \
         sudo \
         python-pip python-pillow && \
-    pip install Sphinx && \
+    pip install Sphinx mkdocs && \
     pip install sphinxcontrib-blockdiag
 
 RUN echo "progress = dot:mega" | tee /etc/wgetrc
