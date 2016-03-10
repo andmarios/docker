@@ -5,8 +5,8 @@ RUN yum install -y epel-release
 RUN yum groupinstall -y 'Development Tools' && \
     yum install -y \
         git \
-        java-1.7.0-openjdk-headless \
-        java-1.7.0-openjdk-devel \
+        java-1.8.0-openjdk-headless \
+        java-1.8.0-openjdk-devel \
         nano \
         wget \
         net-tools \
@@ -15,6 +15,7 @@ RUN yum groupinstall -y 'Development Tools' && \
         tar \
         bzip2 \
         sudo \
+        golang \
         python-pip python-pillow && \
     pip install Sphinx mkdocs && \
     pip install sphinxcontrib-blockdiag
