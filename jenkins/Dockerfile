@@ -30,7 +30,6 @@ RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/je
     yum install -y jenkins
 
 # Prepare for Jenkins. Jenkins user is already set by `yum install jenkins`
-VOLUME ["/mnt/jenkins"]
 ENV JENKINS_HOME /mnt/jenkins
 ENV HOME /mnt/jenkins
 RUN chown -R jenkins:jenkins /mnt/jenkins
@@ -49,6 +48,6 @@ RUN ln -s /docker.sock /run/docker.sock
 
 USER jenkins
 WORKDIR /mnt/jenkins
-
+VOLUME ["/mnt/jenkins"]
 EXPOSE 8080
 CMD ["java", "-jar", "/usr/lib/jenkins/jenkins.war", "-Dhudson.diyChunking=true"]

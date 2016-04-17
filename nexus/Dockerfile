@@ -13,7 +13,6 @@ RUN tar xzvf /tmp/nexus-bundle.tar.gz -C /opt/sonatype-nexus --strip-components=
 # Add nexus user and work directory
 # Since we use shared volumes and bind mounts, we want a standardized UID/GID. We use a number above `login.defs` max
 # Nexus UID/GID: 61002
-VOLUME ["/mnt/nexus"]
 RUN useradd --user-group --uid 61002 --home-dir /mnt/nexus nexus && \
     groupmod --gid 61002 nexus && \
     usermod  --gid 61002 nexus
@@ -24,6 +23,7 @@ RUN sed -e 's|nexus-work=.*|nexus-work=/mnt/nexus|' \
         -e 's|nexus-webapp-context-path=.*|nexus-webapp-context-path=/|' \
         -i /opt/sonatype-nexus/conf/nexus.properties
 
+VOLUME ["/mnt/nexus"]
 EXPOSE 8081
 USER nexus
 CMD ["/opt/sonatype-nexus/bin/nexus", "console"]
