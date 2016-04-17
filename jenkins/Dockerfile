@@ -32,8 +32,9 @@ RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/je
 # Prepare for Jenkins. Jenkins user is already set by `yum install jenkins`
 ENV JENKINS_HOME /mnt/jenkins
 ENV HOME /mnt/jenkins
-RUN chown -R jenkins:jenkins /mnt/jenkins
-RUN usermod -a -G root jenkins
+RUN mkdir /mnt/jenkins && \
+    chown -R jenkins:jenkins /mnt/jenkins && \
+    usermod -a -G root jenkins
 
 # Since we use shared volumes and bind mounts, we want a standardized UID/GID. We use a number above `login.defs` max
 # Jenkins UID/GID: 61001
