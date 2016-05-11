@@ -25,6 +25,10 @@ RUN echo "progress = dot:mega" | tee /etc/wgetrc
 RUN curl -sL https://rpm.nodesource.com/setup | bash - && \
     yum install -y nodejs
 
+RUN wget https://services.gradle.org/distributions/gradle-2.13-bin.zip -O /tmp/gradle-2.13.zip && \
+    unzip /tmp/gradle-2.13.zip -d /opt/ && \
+    rm -f /tmp/gradle-2.13.zip
+
 RUN curl http://pkg.jenkins-ci.org/redhat/jenkins.repo | tee /etc/yum.repos.d/jenkins.repo && \
     rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key && \
     yum install -y jenkins
@@ -48,6 +52,9 @@ RUN find / -path /proc -prune -o -user  jenkins -exec chown -h 61001 {} \; && \
 RUN ln -s /docker.sock /run/docker.sock
 
 USER jenkins
+ENV GRADLE_HOME=/opt/gradle-2.13
+ENV JAVA_HOME=/usr/lib/jvm/java
+ENV PATH="$PATH:$GRADLE_HOME/bin"
 WORKDIR /mnt/jenkins
 VOLUME ["/mnt/jenkins"]
 EXPOSE 8080
