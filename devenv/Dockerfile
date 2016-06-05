@@ -10,17 +10,58 @@ RUN sed '/tsflags=nodocs/d' -i /etc/yum.conf && \
         tee /etc/yum.repos.d/bintray-sbt-rpm.repo && \
     curl https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo | \
         tee /etc/yum.repos.d/epel-apache-maven.repo && \
-    yum install -y git golang java-1.8.0-openjdk-headless openssl tmux nmap \
-        java-1.8.0-openjdk-devel nano emacs-nox wget net-tools gcc jq ncftp \
-        tar moreutils docker bash-completion ansible sudo bind-utils mlocate \
-        pyOpenSSL htop nload iftop vim-enhanced ruby rubygems \
-        ruby-devel python-devel sbt apache-maven nodejs nodejs-devel npm \
-        sloccount man man-pages bc tree tig telnet asciidoc \
-        python-pip python-pillow && \
+    yum install -y \
+        git \
+        golang \
+        java-1.8.0-openjdk-headless \
+        openssl \
+        tmux \
+        nmap \
+        java-1.8.0-openjdk-devel \
+        nano \
+        emacs-nox \
+        wget \
+        net-tools \
+        gcc \
+        jq \
+        ncftp \
+        tar \
+        moreutils \
+        docker \
+        bash-completion \
+        ansible \
+        python-libcloud \
+        sudo \
+        bind-utils \
+        mlocate \
+        pyOpenSSL \
+        htop \
+        nload \
+        iftop \
+        vim-enhanced \
+        ruby \
+        rubygems \
+        ruby-devel \
+        python-devel \
+        sbt \
+        apache-maven \
+        nodejs \
+        nodejs-devel \
+        npm \
+        sloccount \
+        man \
+        man-pages \
+        bc \
+        tree \
+        tig \
+        telnet \
+        asciidoc \
+        python-pip \
+        python-pillow && \
     echo "gem: --no-ri --no-rdoc" >> /etc/gemrc && \
     gem install jekyll asciidoctor coderay pygments.rb && \
     gem install --pre asciidoctor-pdf && \
-    pip install apache-libcloud Sphinx mkdocs && \
+    pip install Sphinx mkdocs && \
     pip install sphinxcontrib-blockdiag
 
 # Interestingly on CentOS 7 you can't bind mount a socket inside /run
