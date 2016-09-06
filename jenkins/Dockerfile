@@ -1,10 +1,11 @@
 FROM centos:latest
 MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
-RUN yum install -y epel-release
-RUN yum groupinstall -y 'Development Tools' && \
+RUN yum install -y epel-release && \
+    yum groupinstall -y 'Development Tools' && \
     yum install -y \
         git \
+        mercurial \
         java-1.8.0-openjdk-headless \
         java-1.8.0-openjdk-devel \
         nano \
@@ -18,9 +19,8 @@ RUN yum groupinstall -y 'Development Tools' && \
         golang \
         python-pip python-pillow && \
     pip install Sphinx mkdocs && \
-    pip install sphinxcontrib-blockdiag
-
-RUN echo "progress = dot:mega" | tee /etc/wgetrc
+    pip install sphinxcontrib-blockdiag && \
+    echo "progress = dot:mega" | tee /etc/wgetrc
 
 RUN curl -sL https://rpm.nodesource.com/setup | bash - && \
     yum install -y nodejs
