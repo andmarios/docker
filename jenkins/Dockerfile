@@ -2,9 +2,11 @@ FROM centos:latest
 MAINTAINER Marios Andreopoulos <opensource@andmarios.com>
 
 RUN yum install -y epel-release \
+    && yum install -y https://centos7.iuscommunity.org/ius-release.rpm \
     && yum groupinstall -y 'Development Tools' \
+    && yum remove -y git \
     && yum install -y \
-          git \
+          git2u \
           mercurial \
           java-1.8.0-openjdk-headless \
           java-1.8.0-openjdk-devel \
